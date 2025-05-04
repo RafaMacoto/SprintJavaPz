@@ -1,0 +1,17 @@
+package com.example.mottu.dto;
+
+import com.example.mottu.model.moto.Status;
+
+public record MotoResponseDTO(
+        Long id,
+        String modelo,
+        Status status,
+        String posicao,
+        String problema,
+        String placa,
+        double latitude,
+        double longitude,
+        Long alaId,
+        String nomeAla
+) {
+}
