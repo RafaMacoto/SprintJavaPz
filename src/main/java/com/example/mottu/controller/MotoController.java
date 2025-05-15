@@ -59,8 +59,6 @@ public class MotoController {
         moto.setPosicao(dto.posicao());
         moto.setProblema(dto.problema());
         moto.setPlaca(dto.placa());
-        moto.setLatitude(dto.latitude());
-        moto.setLongitude(dto.longitude());
 
         if (dto.alaId() != null) {
             moto.setAla(getAla(dto.alaId()));
@@ -80,8 +78,6 @@ public class MotoController {
         moto.setPosicao(dto.posicao());
         moto.setProblema(dto.problema());
         moto.setPlaca(dto.placa());
-        moto.setLatitude(dto.latitude());
-        moto.setLongitude(dto.longitude());
 
         if (dto.alaId() != null) {
             moto.setAla(getAla(dto.alaId()));

@@ -9,8 +9,6 @@ public record MotoResponseDTO(
         String posicao,
         String problema,
         String placa,
-        double latitude,
-        double longitude,
         Long alaId,
         String nomeAla
 ) {

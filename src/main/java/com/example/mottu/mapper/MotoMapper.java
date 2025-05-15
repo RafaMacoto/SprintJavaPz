@@ -16,8 +16,6 @@ public class MotoMapper {
                 moto.getPosicao(),
                 moto.getProblema(),
                 moto.getPlaca(),
-                moto.getLatitude(),
-                moto.getLongitude(),
                 moto.getAla() != null ? moto.getAla().getId() : null,
                 moto.getAla() != null ? moto.getAla().getNome() : null
         );

@@ -18,10 +18,6 @@ public record MotoRequestDTO(
 
         String placa,
 
-        double latitude,
-
-        double longitude,
-
         Long alaId
 ) {
 }

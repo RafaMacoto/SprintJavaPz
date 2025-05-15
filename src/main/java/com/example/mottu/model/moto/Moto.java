@@ -26,8 +26,6 @@ public class Moto {
     private String posicao;
     private String problema;
     private String placa;
-    private double latitude;
-    private double longitude;
 
     @ManyToOne
     @JoinColumn(name = "ala_id")
