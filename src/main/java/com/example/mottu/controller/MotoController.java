@@ -10,6 +10,8 @@ import com.example.mottu.model.moto.MotoFilter;
 import com.example.mottu.repository.AlaRepository;
 import com.example.mottu.repository.MotoRepository;
 import com.example.mottu.specification.MotoSpecification;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -32,6 +34,12 @@ public class MotoController {
     @Autowired
     private AlaRepository alaRepository;
 
+    @Operation(
+            summary = "Listar motos",
+            description = "Retorna uma lista paginada de motos com base nos filtros fornecidos.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso")
+            })
     @GetMapping
     @Cacheable("motos")
     public ResponseEntity<Page<MotoResponseDTO>> index(
@@ -44,12 +52,28 @@ public class MotoController {
 
     }
 
+    @Operation(
+            summary = "Buscar moto por ID",
+            description = "Retorna os dados da moto com o ID informado.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Moto encontrada com sucesso"),
+                    @ApiResponse(responseCode = "404", description = "Moto não encontrada")
+            }
+    )
     @GetMapping("/{id}")
     public ResponseEntity<MotoResponseDTO> findById(@PathVariable Long id) {
         Moto moto = getMoto(id);
         return ResponseEntity.ok(MotoMapper.toMotoDTO(moto));
     }
 
+    @Operation(
+            summary = "Cadastrar nova moto",
+            description = "Cria uma nova moto no sistema.",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Moto criada com sucesso"),
+                    @ApiResponse(responseCode = "400", description = "Dados inválidos para criação da moto")
+            }
+    )
     @PostMapping
     @CacheEvict(value = "motos", allEntries = true)
     public ResponseEntity<MotoResponseDTO> create(@RequestBody @Valid MotoRequestDTO dto) {
@@ -68,6 +92,15 @@ public class MotoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(MotoMapper.toMotoDTO(saved));
     }
 
+    @Operation(
+            summary = "Atualizar moto",
+            description = "Atualiza os dados da moto com o ID informado.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Moto atualizada com sucesso"),
+                    @ApiResponse(responseCode = "404", description = "Moto não encontrada"),
+                    @ApiResponse(responseCode = "400", description = "Dados inválidos para atualização")
+            }
+    )
     @PutMapping("/{id}")
     @CacheEvict(value = "motos", allEntries = true)
     public ResponseEntity<MotoResponseDTO> update(@PathVariable Long id, @RequestBody @Valid MotoRequestDTO dto) {
@@ -89,6 +122,14 @@ public class MotoController {
         return ResponseEntity.ok(MotoMapper.toMotoDTO(updated));
     }
 
+    @Operation(
+            summary = "Excluir moto",
+            description = "Exclui a moto com o ID informado.",
+            responses = {
+                    @ApiResponse(responseCode = "204", description = "Moto excluída com sucesso"),
+                    @ApiResponse(responseCode = "404", description = "Moto não encontrada")
+            }
+    )
     @DeleteMapping("/{id}")
     @CacheEvict(value = "motos", allEntries = true)
     public ResponseEntity<Void> delete(@PathVariable Long id) {
