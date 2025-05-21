@@ -77,6 +77,8 @@ public class MotoController {
     @PostMapping
     @CacheEvict(value = "motos", allEntries = true)
     public ResponseEntity<MotoResponseDTO> create(@RequestBody @Valid MotoRequestDTO dto) {
+        System.out.println("Recebido alaId no DTO: " + dto.alaId());
+
         Moto moto = new Moto();
         moto.setModelo(dto.modelo());
         moto.setStatus(dto.status());
@@ -85,10 +87,12 @@ public class MotoController {
         moto.setPlaca(dto.placa());
 
         if (dto.alaId() != null) {
-            moto.setAla(getAla(dto.alaId()));
+            Ala ala = getAla(dto.alaId());
+            moto.setAla(ala);
         }
 
         Moto saved = repository.save(moto);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(MotoMapper.toMotoDTO(saved));
     }
 
