@@ -1,0 +1,117 @@
+Login com a conta do azure
+az login
+
+
+Criar resource group
+az group create -l eastus -n rg-vm-challenge
+
+
+Criar maquina virtual
+az vm create --resource-group rg-vm-challenge --name vm-challenge --image Canonical:ubuntu-24_04-lts:minimal:24.04.202505020 --size Standard_B2s --admin-username admin_fiap --admin-password admin_fiap@123
+
+
+Abrir as portas necessarias
+az network nsg rule create --resource-group rg-vm-challenge --nsg-name vm-challengeNSG --name port_8080 --protocol tcp --priority 1010 --destination-port-range 8080
+
+
+az network nsg rule create --resource-group rg-vm-challenge --nsg-name vm-challengeNSG --name port_80 --protocol tcp --priority 1020 --destination-port-range 80
+
+
+Instalar o Docker na vm
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+
+
+Latest version
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+
+Verificar se a instalação foi um sucesso
+sudo docker run hello-world
+
+
+Abrir o vs code, criar uma pasta e clonar o repositório la dentro
+git clone https://github.com/RafaMacoto/SprintJavaPz.git
+
+
+Entrar na pasta do projeto
+cd SprintJavaPz
+
+
+Criar o arquivo Dockerfile na raiz do projeto
+# Etapa de build com Java 21
+FROM maven:3.9.6-eclipse-temurin-21 AS build
+
+WORKDIR /app
+
+# Copia os arquivos do projeto para o container
+COPY . .
+
+# Compila e empacota a aplicação sem rodar os testes
+RUN mvn clean package -DskipTests
+
+# Etapa de runtime com Java 21
+FROM eclipse-temurin:21-jre-jammy
+
+# Cria um usuário não-root para rodar a aplicação
+RUN useradd -m appuser
+
+WORKDIR /home/appuser
+
+# Copia o .jar gerado na etapa de build
+COPY --from=build /app/target/*.jar app.jar
+
+# Define o usuário não-root
+USER appuser
+
+# Exponha a porta que sua aplicação utiliza
+EXPOSE 8080
+
+# Comando para executar a aplicação
+CMD ["java", "-jar", "app.jar"]
+
+
+Abrir o Docker Desktop
+
+
+Build da imagem localmente
+docker build -t rm558962/challenge .
+
+
+Rodar a aplicação localmente para testar
+docker run -d -p 8080:8080 rm558962/challenge
+
+
+Vamos subir a imagem na nuvem
+
+Login no Docker Hub
+docker login
+
+
+Tag da imagem com seu Docker Hub
+docker tag rm558962/challenge rm558962/teste:1.0
+
+
+Push para o Docker Hub
+docker push rm558962/teste:1.0
+
+
+
+Na VM (depois de logado via SSH)
+sudo docker pull rm558962/teste:1.0
+sudo docker run -d -p 8080:8080 rm558962/teste:1.0
+
+
+Acessar a aplicação no Postman
+http://<IP-PÚBLICO-DA-VM>:8080
