@@ -10,10 +10,9 @@ Este projeto propõe uma solução inteligente para a gestão de pátios da Mott
 
 ### Solução
 - Uso de câmeras como sensores inteligentes para capturar imagens dos pátios.
-- Aplicação de modelos de **IA com CNN** (Redes Neurais Convolucionais) para identificar o tipo de moto (Pop, Sport ou Elétrica).
+- Aplicação de modelos de **IA com CNN** (Redes Neurais Convolucionais) para identificar o tipo de moto.
 - Exibição dos resultados em um **mapa digital interativo**, com status em tempo real.
-
-> Futuramente, os dados processados serão integrados a um aplicativo para acesso e controle remoto.
+- Futuramente, os dados processados serão integrados a um aplicativo para acesso e controle remoto.
 
 ## Integrantes do Grupo
 
