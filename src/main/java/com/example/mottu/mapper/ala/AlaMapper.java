@@ -1,8 +1,9 @@
-package com.example.mottu.mapper;
+package com.example.mottu.mapper.ala;
 
-import com.example.mottu.dto.AlaRequestDTO;
-import com.example.mottu.dto.AlaResponseDTO;
-import com.example.mottu.dto.MotoResponseDTO;
+import com.example.mottu.dto.ala.AlaRequestDTO;
+import com.example.mottu.dto.ala.AlaResponseDTO;
+import com.example.mottu.dto.moto.MotoResponseDTO;
+import com.example.mottu.mapper.moto.MotoMapper;
 import com.example.mottu.model.ala.Ala;
 
 import java.util.List;

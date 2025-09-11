@@ -1,7 +1,7 @@
 package com.example.mottu.specification;
 
+import com.example.mottu.dto.moto.MotoFilter;
 import com.example.mottu.model.moto.Moto;
-import com.example.mottu.model.moto.MotoFilter;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 

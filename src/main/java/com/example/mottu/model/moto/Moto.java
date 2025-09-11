@@ -1,5 +1,6 @@
 package com.example.mottu.model.moto;
 
+
 import com.example.mottu.model.ala.Ala;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -30,5 +31,4 @@ public class Moto {
     @ManyToOne
     @JoinColumn(name = "ala_id")
     private Ala ala;
-
 }

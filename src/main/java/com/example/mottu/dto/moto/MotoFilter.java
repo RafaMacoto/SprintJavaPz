@@ -1,6 +1,6 @@
-package com.example.mottu.model.moto;
+package com.example.mottu.dto.moto;
 
-import java.util.Optional;
+import com.example.mottu.model.moto.Status;
 
 public record MotoFilter(
         Status status,

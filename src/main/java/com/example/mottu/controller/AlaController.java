@@ -1,12 +1,14 @@
 package com.example.mottu.controller;
 
-import com.example.mottu.dto.AlaRequestDTO;
-import com.example.mottu.dto.AlaResponseDTO;
+import com.example.mottu.dto.ala.AlaRequestDTO;
+import com.example.mottu.dto.ala.AlaResponseDTO;
 import com.example.mottu.exception.NotFoundException;
-import com.example.mottu.mapper.AlaMapper;
+import com.example.mottu.mapper.ala.AlaMapper;
 import com.example.mottu.model.ala.Ala;
-import com.example.mottu.model.ala.AlaFilter;
+import com.example.mottu.dto.ala.AlaFilter;
 import com.example.mottu.repository.AlaRepository;
+import com.example.mottu.service.ala.AlaService;
+import com.example.mottu.service.ala.IAlaService;
 import com.example.mottu.specification.AlaSpecification;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,7 +29,7 @@ import org.springframework.web.bind.annotation.*;
 public class AlaController {
 
     @Autowired
-    private AlaRepository repository;
+    private IAlaService service;
 
     @Operation(
             summary = "Listar alas",
@@ -42,9 +44,7 @@ public class AlaController {
             @ModelAttribute AlaFilter filter,
             @PageableDefault(size = 5, sort = "nome") Pageable pageable
     ) {
-        var specification = AlaSpecification.withFilters(filter);
-        Page<Ala> alas = repository.findAll(specification, pageable);
-        return ResponseEntity.ok(alas.map(AlaMapper::toResponse));
+        return ResponseEntity.ok(service.list(filter, pageable));
     }
 
     @Operation(
@@ -57,8 +57,7 @@ public class AlaController {
     )
     @GetMapping("/{id}")
     public ResponseEntity<AlaResponseDTO> findById(@PathVariable Long id) {
-        Ala ala = getAla(id);
-        return ResponseEntity.ok(AlaMapper.toResponse(ala));
+        return ResponseEntity.ok(service.getById(id));
     }
 
     @Operation(
@@ -72,9 +71,7 @@ public class AlaController {
     @PostMapping
     @CacheEvict(value = "alas", allEntries = true)
     public ResponseEntity<AlaResponseDTO> create(@RequestBody @Valid AlaRequestDTO request) {
-        Ala ala = AlaMapper.toEntity(request);
-        Ala saved = repository.save(ala);
-        return ResponseEntity.status(HttpStatus.CREATED).body(AlaMapper.toResponse(saved));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(request));
     }
 
     @Operation(
@@ -89,10 +86,7 @@ public class AlaController {
     @PutMapping("/{id}")
     @CacheEvict(value = "alas", allEntries = true)
     public ResponseEntity<AlaResponseDTO> update(@PathVariable Long id, @RequestBody @Valid AlaRequestDTO request) {
-        Ala ala = getAla(id);
-        ala.setNome(request.nome());
-        Ala updated = repository.save(ala);
-        return ResponseEntity.ok(AlaMapper.toResponse(updated));
+        return ResponseEntity.ok(service.update(id, request));
     }
 
     @Operation(
@@ -106,13 +100,7 @@ public class AlaController {
     @DeleteMapping("/{id}")
     @CacheEvict(value = "alas", allEntries = true)
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        Ala ala = getAla(id);
-        repository.delete(ala);
+        service.delete(id);
         return ResponseEntity.noContent().build();
-    }
-
-    private Ala getAla(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new NotFoundException("id", "Ala não encontrada com o id: " + id));
     }
 }

@@ -12,21 +12,21 @@ import java.util.List;
 @RestControllerAdvice
 public class ValidationHandler {
 
-     record ValidationError(String field, String message) {
-         public ValidationError(FieldError fieldError) {
-             this(fieldError.getField(), fieldError.getDefaultMessage());
-         }
-     }
+    record ValidationError(String field, String message) {
+        public ValidationError(FieldError fieldError) {
+            this(fieldError.getField(), fieldError.getDefaultMessage());
+        }
+    }
 
-     @ExceptionHandler(MethodArgumentNotValidException.class)
-     @ResponseStatus(HttpStatus.BAD_REQUEST)
-     public List<ValidationError> handle(MethodArgumentNotValidException e){
-         return e.getFieldErrors()
-                 .stream()
-                 .map(ValidationError::new)
-                 .toList();
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public List<ValidationError> handle(MethodArgumentNotValidException e){
+        return e.getFieldErrors()
+                .stream()
+                .map(ValidationError::new)
+                .toList();
 
-     }
+    }
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)

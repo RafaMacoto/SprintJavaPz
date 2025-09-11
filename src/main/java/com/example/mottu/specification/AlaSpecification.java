@@ -1,7 +1,7 @@
 package com.example.mottu.specification;
 
+import com.example.mottu.dto.ala.AlaFilter;
 import com.example.mottu.model.ala.Ala;
-import com.example.mottu.model.ala.AlaFilter;
 import org.springframework.data.jpa.domain.Specification;
 
 public class AlaSpecification {

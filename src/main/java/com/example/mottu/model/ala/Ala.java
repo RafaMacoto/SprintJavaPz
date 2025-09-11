@@ -1,5 +1,6 @@
 package com.example.mottu.model.ala;
 
+
 import com.example.mottu.model.moto.Moto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -15,7 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Ala {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank

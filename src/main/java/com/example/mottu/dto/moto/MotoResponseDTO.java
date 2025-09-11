@@ -1,4 +1,4 @@
-package com.example.mottu.dto;
+package com.example.mottu.dto.moto;
 
 import com.example.mottu.model.moto.Status;
 

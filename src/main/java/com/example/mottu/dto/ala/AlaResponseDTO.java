@@ -1,4 +1,6 @@
-package com.example.mottu.dto;
+package com.example.mottu.dto.ala;
+
+import com.example.mottu.dto.moto.MotoResponseDTO;
 
 import java.util.List;
 

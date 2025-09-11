@@ -1,4 +1,4 @@
-package com.example.mottu.model.ala;
+package com.example.mottu.dto.ala;
 
 public record AlaFilter(String nome) {
 }
