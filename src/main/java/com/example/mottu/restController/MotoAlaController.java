@@ -1,9 +1,8 @@
-package com.example.mottu.controller;
+package com.example.mottu.restController;
 
 import com.example.mottu.dto.motoAla.MotoAlaRequestDTO;
 import com.example.mottu.dto.motoAla.MotoAlaResponseDTO;
 import com.example.mottu.service.motoAla.IMotoAlaService;
-import com.example.mottu.service.motoAla.MotoAlaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

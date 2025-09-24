@@ -8,8 +8,15 @@ public class AlaSpecification {
 
     public static Specification<Ala> withFilters(AlaFilter filter) {
         return (root, query, criteriaBuilder) -> {
+            if (filter == null) {
+                return criteriaBuilder.conjunction(); 
+            }
+
             if (filter.nome() != null && !filter.nome().isEmpty()) {
-                return criteriaBuilder.like(criteriaBuilder.lower(root.get("nome")), "%" + filter.nome().toLowerCase() + "%");
+                return criteriaBuilder.like(
+                        criteriaBuilder.lower(root.get("nome")),
+                        "%" + filter.nome().toLowerCase() + "%"
+                );
             }
             return criteriaBuilder.conjunction();
         };

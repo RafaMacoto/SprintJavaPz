@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record MotoRequestDTO(
+
+        Long id,
+
         @NotBlank(message = "Modelo da moto não pode ser nulo")
         String modelo,
 

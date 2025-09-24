@@ -1,4 +1,4 @@
-package com.example.mottu.controller;
+package com.example.mottu.restController;
 
 import com.example.mottu.dto.moto.MotoRequestDTO;
 import com.example.mottu.dto.moto.MotoResponseDTO;

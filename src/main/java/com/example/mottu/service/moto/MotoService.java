@@ -2,6 +2,7 @@ package com.example.mottu.service.moto;
 
 import com.example.mottu.dto.moto.MotoRequestDTO;
 import com.example.mottu.dto.moto.MotoResponseDTO;
+import com.example.mottu.exception.NotFoundException;
 import com.example.mottu.mapper.moto.MotoMapper;
 import com.example.mottu.model.ala.Ala;
 import com.example.mottu.model.moto.Moto;
@@ -68,11 +69,11 @@ public class MotoService implements IMotoService {
 
     private Moto getMoto(Long id) {
         return motoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Moto não encontrada com id: " + id));
+                .orElseThrow(() -> new NotFoundException("id","Moto não encontrada com id:" + id));
     }
 
     private Ala getAla(Long id) {
         return alaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Ala não encontrada com id: " + id));
+                .orElseThrow(() -> new NotFoundException("id", "Ala não encontrada com id: " + id));
     }
 }

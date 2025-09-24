@@ -1,4 +1,4 @@
-package com.example.mottu.controller;
+package com.example.mottu.restController;
 
 import com.example.mottu.dto.security.Credentials;
 import com.example.mottu.dto.security.Token;

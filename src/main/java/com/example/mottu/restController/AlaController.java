@@ -1,15 +1,9 @@
-package com.example.mottu.controller;
+package com.example.mottu.restController;
 
 import com.example.mottu.dto.ala.AlaRequestDTO;
 import com.example.mottu.dto.ala.AlaResponseDTO;
-import com.example.mottu.exception.NotFoundException;
-import com.example.mottu.mapper.ala.AlaMapper;
-import com.example.mottu.model.ala.Ala;
 import com.example.mottu.dto.ala.AlaFilter;
-import com.example.mottu.repository.AlaRepository;
-import com.example.mottu.service.ala.AlaService;
 import com.example.mottu.service.ala.IAlaService;
-import com.example.mottu.specification.AlaSpecification;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;

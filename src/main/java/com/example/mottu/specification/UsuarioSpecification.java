@@ -13,6 +13,10 @@ public class UsuarioSpecification {
 
     public static Specification<Usuario> withFilters(UsuarioFilter filter) {
         return (root, query, cb) -> {
+            if (filter == null) {
+                return cb.conjunction();
+            }
+
             List<Predicate> predicates = new ArrayList<>();
 
             if (filter.nome() != null && !filter.nome().isBlank()) {
@@ -22,8 +26,6 @@ public class UsuarioSpecification {
             if (filter.email() != null && !filter.email().isBlank()) {
                 predicates.add(cb.like(cb.lower(root.get("email")), "%" + filter.email().toLowerCase() + "%"));
             }
-
-
 
             return cb.and(predicates.toArray(new Predicate[0]));
         };

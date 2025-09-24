@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR" data-theme="dracula">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+    <title>Login</title>
+</head>
+<body>
+
+<h1 class="text-3xl text-primary font-bold p-8 text-center">Login</h1>
+
+<main class="grid grid-cols-1 gap-4 p-4 place-items-center">
+    <form th:action="@{/login}" method="post" class="w-full max-w-md card p-6 bg-base-300">
+
+        <div th:if="${param.error}" class="alert alert-error mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <span>Credenciais Inválidas.</span>
+        </div>
+
+        <div th:if="${param.logout}" class="alert alert-success mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <span>Você foi desconectado com sucesso.</span>
+        </div>
+
+        <fieldset class="mb-4">
+            <label class="label" for="username">
+                <span class="label-text">Email</span>
+            </label>
+            <input type="text" id="username" name="username" class="input input-bordered w-full" />
+        </fieldset>
+
+        <fieldset class="mb-4">
+            <label class="label" for="password">
+                <span class="label-text">Senha</span>
+            </label>
+            <input type="password" id="password" name="password" class="input input-bordered w-full" />
+        </fieldset>
+
+        <div class="flex justify-between mt-6">
+            <button type="submit" class="btn btn-primary w-full">Entrar</button>
+        </div>
+
+    </form>
+</main>
+
+</body>
+</html>

@@ -1,4 +1,4 @@
-package com.example.mottu.controller;
+package com.example.mottu.restController;
 
 import com.example.mottu.dto.usuario.UsuarioFilter;
 import com.example.mottu.dto.usuario.UsuarioRequestDTO;
@@ -6,7 +6,6 @@ import com.example.mottu.dto.usuario.UsuarioResponseDTO;
 import com.example.mottu.dto.usuario.UsuarioUpdateDTO;
 import com.example.mottu.model.usuario.Usuario;
 import com.example.mottu.service.usuario.IUsuarioService;
-import com.example.mottu.service.usuario.UsuarioService;
 import com.example.mottu.specification.UsuarioSpecification;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
