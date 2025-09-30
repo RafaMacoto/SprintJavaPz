@@ -6,7 +6,7 @@
 
 <div class="container">
     <h2>Alas</h2>
-    <a th:href="@{/alas/novo}" class="btn btn-primary mb-3">Nova Ala</a>
+    <a th:href="@{/alas-view/novo}" class="btn btn-primary mb-4">+ Nova Ala</a>
 
     <div th:each="ala : ${alas}" class="card mb-4 p-4 shadow">
         <h3 th:text="${ala.nome}"></h3>

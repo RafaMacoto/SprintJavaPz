@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR" data-theme="dracula">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Novo Cadastro - Mottu</title>
+</head>
+<body class="bg-base-200 min-h-screen flex items-center justify-center">
+
+<div class="card w-full max-w-lg bg-base-100 shadow-xl p-6">
+    <h2 class="text-2xl font-bold text-center mb-6">Cadastre-se</h2>
+
+    <div th:if="${error}" role="alert" class="alert alert-error mb-4">
+        <span th:text="${error}"></span>
+    </div>
+
+    <form th:object="${usuario}" th:action="@{/usuarios-view/cadastro}" method="post">
+
+        <fieldset class="mb-4">
+            <label class="label"><span class="label-text">Nome</span></label>
+            <input th:field="*{nome}" th:errorclass="input-error" type="text" class="input input-bordered w-full" placeholder="Seu nome completo"/>
+            <p class="label text-error" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></p>
+        </fieldset>
+
+        <fieldset class="mb-4">
+            <label class="label"><span class="label-text">E-mail</span></label>
+            <input th:field="*{email}" th:errorclass="input-error" type="email" class="input input-bordered w-full" placeholder="seu@email.com"/>
+            <p class="label text-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+        </fieldset>
+
+        <fieldset class="mb-4">
+            <label class="label"><span class="label-text">Permissão (Role)</span></label>
+            <select th:field="*{role}" th:errorclass="select-error" class="select select-bordered w-full" required>
+                <option value="">Selecione...</option>
+                <option th:each="role : ${roles}"
+                        th:value="${role}"
+                        th:text="${role.name()}">USER</option>
+            </select>
+            <p class="label text-error" th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></p>
+        </fieldset>
+        <fieldset class="mb-6">
+            <label class="label"><span class="label-text">Senha</span></label>
+            <input th:field="*{senha}" th:errorclass="input-error" type="password" class="input input-bordered w-full" placeholder="Mínimo 6 caracteres"/>
+            <p class="label text-error" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></p>
+        </fieldset>
+
+        <button type="submit" class="btn btn-primary w-full mb-4">Finalizar Cadastro</button>
+    </form>
+
+    <a th:href="@{/login}" class="btn btn-ghost w-full">
+        Voltar para a página de Login
+    </a>
+</div>
+
+</body>
+</html>

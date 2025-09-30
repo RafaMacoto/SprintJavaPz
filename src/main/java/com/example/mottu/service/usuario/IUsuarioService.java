@@ -7,12 +7,15 @@ import com.example.mottu.dto.usuario.UsuarioUpdateDTO;
 import com.example.mottu.model.usuario.Usuario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 public interface IUsuarioService {
 
     UsuarioResponseDTO createUsuario(UsuarioRequestDTO dto);
 
-    Page<UsuarioResponseDTO> listarUsuarios(Usuario logado, Pageable pageable, UsuarioFilter filter);
+    Page<UsuarioResponseDTO> listarUsuarios(Usuario logado, Specification<Usuario> specification, Pageable pageable);
+
+    Page<UsuarioResponseDTO> listarUsuariosView(Pageable pageable, UsuarioFilter filter);
 
     UsuarioResponseDTO buscarPorId(Long id, Usuario logado);
 

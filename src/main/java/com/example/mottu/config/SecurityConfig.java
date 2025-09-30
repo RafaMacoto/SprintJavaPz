@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.stereotype.Component;
+
 
 @Configuration
 @EnableWebSecurity
@@ -25,6 +25,8 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/usuarios-view/cadastro").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/usuarios-view/cadastro").permitAll()
                         .requestMatchers(HttpMethod.GET, "/motos-view/**", "/alas-view/**").hasAnyAuthority("ADMIN", "USER")
                         .requestMatchers("/motos-view/admin/**", "/alas-view/admin/**", "/users-view/admin/**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/users/**").permitAll()

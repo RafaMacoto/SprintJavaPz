@@ -35,20 +35,23 @@ public class UsuarioService implements IUsuarioService {
         }
 
         Usuario u = UsuarioMapper.toEntity(dto);
-        u.setSenha(passwordEncoder.encode(dto.senha()));;
+
+        u.setSenha(passwordEncoder.encode(dto.senha()));
         Usuario salvo = repository.save(u);
 
         return UsuarioMapper.toDTO(salvo);
     }
 
-    public Page<UsuarioResponseDTO> listarUsuarios(Usuario logado, Pageable pageable, UsuarioFilter filter) {
-        if (!isAdmin(logado)) {
+    public Page<UsuarioResponseDTO> listarUsuarios(Usuario logado, Specification<Usuario> specification, Pageable pageable) {
+        if (logado == null) {
+            throw new AccessDeniedException("Usuário precisa estar logado");
+        }
+
+        if (logado.getRole() != RoleUsuario.ADMIN) {
             throw new AccessDeniedException("Somente admin pode listar todos usuários");
         }
-        Specification<Usuario> spec = UsuarioSpecification.withFilters(filter);
 
-        return repository.findAll(spec, pageable)
-                .map(UsuarioMapper::toDTO);
+        return repository.findAll(specification, pageable).map(UsuarioMapper::toDTO);
     }
 
     public UsuarioResponseDTO buscarPorId(Long id, Usuario logado) {
@@ -82,6 +85,12 @@ public class UsuarioService implements IUsuarioService {
             throw new AccessDeniedException("Você só pode deletar seu próprio usuário");
         }
         repository.deleteById(id);
+    }
+
+    public Page<UsuarioResponseDTO> listarUsuariosView(Pageable pageable, UsuarioFilter filter) {
+        Specification<Usuario> spec = UsuarioSpecification.withFilters(filter);
+        return repository.findAll(spec, pageable)
+                .map(UsuarioMapper::toDTO);
     }
 
     private boolean isAdmin(Usuario usuario) {

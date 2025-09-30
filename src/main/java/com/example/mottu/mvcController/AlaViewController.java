@@ -30,7 +30,8 @@ public class AlaViewController {
 
     @GetMapping("/novo")
     public String novo(Model model) {
-        model.addAttribute("ala", new AlaRequestDTO(""));
+
+        model.addAttribute("ala", new AlaRequestDTO(null, ""));
         return "alas/form";
     }
 
@@ -41,20 +42,22 @@ public class AlaViewController {
         return "alas/form";
     }
 
-    @PostMapping
-    public String salvar(@Valid @ModelAttribute("ala") AlaRequestDTO dto, BindingResult result, Model model) {
+
+    @PostMapping("/form")
+    public String salvarOuAtualizar(@Valid @ModelAttribute("ala") AlaRequestDTO dto, BindingResult result, Model model) {
         if (result.hasErrors()) {
+
             model.addAttribute("ala", dto);
             return "alas/form";
         }
-        alaService.create(dto);
-        return "redirect:/alas-view";
-    }
 
-    @PostMapping("/editar/{id}")
-    public String atualizar(@PathVariable Long id, @Valid @ModelAttribute("ala") AlaRequestDTO dto, BindingResult result) {
-        if (result.hasErrors()) return "alas/form";
-        alaService.update(id, dto);
+
+        if (dto.id() != null) {
+            alaService.update(dto.id(), dto);
+        } else {
+            alaService.create(dto);
+        }
+
         return "redirect:/alas-view";
     }
 

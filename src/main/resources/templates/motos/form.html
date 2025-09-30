@@ -1,80 +1,67 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR" data-theme="dracula">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
     <title>Moto Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 
-<h1 class="text-3xl text-primary font-bold p-8 text-center"
+<h1 class="text-center my-4"
     th:text="${moto.id} != null ? 'Editar Moto' : 'Nova Moto'"></h1>
 
-<main class="grid grid-cols-1 gap-4 p-4 place-items-center">
-
+<main class="container d-flex justify-content-center">
     <form th:object="${moto}" th:action="@{/motos-view/form}" method="post"
-          class="w-full max-w-md card p-6 bg-base-300">
+          class="card p-4 shadow w-50">
 
         <input type="hidden" th:field="*{id}" />
 
-        <fieldset class="mb-4">
-            <label class="label" for="modelo">
-                <span class="label-text">Modelo</span>
-            </label>
-            <input th:field="*{modelo}" type="text" id="modelo" class="input input-bordered w-full" />
-            <p class="text-error mt-1" th:errors="*{modelo}"></p>
-        </fieldset>
+        <div class="mb-3">
+            <label for="modelo" class="form-label">Modelo</label>
+            <input th:field="*{modelo}" type="text" id="modelo" class="form-control" />
+            <p class="text-danger" th:errors="*{modelo}"></p>
+        </div>
 
-        <fieldset class="mb-4">
-            <label class="label" for="status">
-                <span class="label-text">Status</span>
-            </label>
-            <select th:field="*{status}" id="status" class="select select-bordered w-full">
+        <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select th:field="*{status}" id="status" class="form-select">
                 <option th:each="s : ${T(com.example.mottu.model.moto.Status).values()}"
                         th:value="${s}" th:text="${s}"></option>
             </select>
-            <p class="text-error mt-1" th:errors="*{status}"></p>
-        </fieldset>
+            <p class="text-danger" th:errors="*{status}"></p>
+        </div>
 
-        <fieldset class="mb-4">
-            <label class="label" for="placa">
-                <span class="label-text">Placa</span>
-            </label>
-            <input th:field="*{placa}" type="text" id="placa" class="input input-bordered w-full" />
-            <p class="text-error mt-1" th:errors="*{placa}"></p>
-        </fieldset>
+        <div class="mb-3">
+            <label for="placa" class="form-label">Placa</label>
+            <input th:field="*{placa}" type="text" id="placa" class="form-control" />
+            <p class="text-danger" th:errors="*{placa}"></p>
+        </div>
 
-        <fieldset class="mb-4">
-            <label class="label" for="alaId">
-                <span class="label-text">Ala</span>
-            </label>
-            <select th:field="*{alaId}" id="alaId" class="select select-bordered w-full">
+        <div class="mb-3">
+            <label for="alaId" class="form-label">Ala</label>
+            <select th:field="*{alaId}" id="alaId" class="form-select">
                 <option th:each="a : ${alas}" th:value="${a.id}" th:text="${a.nome}"></option>
             </select>
-            <p class="text-error mt-1" th:errors="*{alaId}"></p>
-        </fieldset>
+            <p class="text-danger" th:errors="*{alaId}"></p>
+        </div>
 
-        <fieldset class="mb-4">
-            <label class="label" for="posicao">
-                <span class="label-text">Posição</span>
-            </label>
-            <input th:field="*{posicao}" type="text" id="posicao" class="input input-bordered w-full" />
-        </fieldset>
+        <div class="mb-3">
+            <label for="posicao" class="form-label">Posição</label>
+            <input th:field="*{posicao}" type="text" id="posicao" class="form-control" />
+        </div>
 
-        <fieldset class="mb-4">
-            <label class="label" for="problema">
-                <span class="label-text">Problema</span>
-            </label>
-            <textarea th:field="*{problema}" id="problema" class="textarea textarea-bordered w-full"></textarea>
-        </fieldset>
+        <div class="mb-3">
+            <label for="problema" class="form-label">Problema</label>
+            <textarea th:field="*{problema}" id="problema" class="form-control"></textarea>
+        </div>
 
-        <div class="flex justify-between mt-6">
-            <a th:href="@{/motos-view}" class="btn btn-neutral">Cancelar</a>
+        <div class="d-flex justify-content-between">
+            <a th:href="@{/motos-view}" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-primary">Salvar</button>
         </div>
     </form>
 </main>
+
 </body>
 </html>
