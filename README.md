@@ -1,4 +1,4 @@
-# SprintJavaPz - Gestão de Pátios Mottu com IoT
+# Gestão de Pátios Mottu com IoT
 
 ## Descrição do Projeto
 Este projeto propõe uma solução inteligente para a gestão de pátios da Mottu, empresa que enfrenta dificuldades em rastrear e organizar suas motos manualmente. A proposta agora é utilizar **dispositivos IoT** para identificar automaticamente a localização das motos e a ala em que elas estão, enviando sinais para a API do sistema em tempo real.
