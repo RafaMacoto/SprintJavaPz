@@ -26,6 +26,11 @@ public class MotoSpecification {
                 predicates.add(cb.like(cb.lower(root.get("placa")), "%" + filter.placa().toLowerCase() + "%"));
             }
 
+
+            if (predicates.isEmpty()) {
+                return cb.conjunction();
+            }
+
             return cb.and(predicates.toArray(new Predicate[0]));
         };
     }

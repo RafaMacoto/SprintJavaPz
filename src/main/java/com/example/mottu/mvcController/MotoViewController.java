@@ -30,7 +30,7 @@ public class MotoViewController {
     @GetMapping
     public String listar(Model model,
                          @RequestParam(defaultValue = "0") int page,
-                         @RequestParam(defaultValue = "5") int size) {
+                         @RequestParam(defaultValue = "20") int size) {
         var motosPage = motoService.listar(new MotoFilter(null, null, null), PageRequest.of(page, size));
         model.addAttribute("motos", motosPage.getContent());
         model.addAttribute("page", motosPage);

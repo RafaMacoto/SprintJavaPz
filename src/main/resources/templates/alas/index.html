@@ -12,8 +12,8 @@
         <h3 th:text="${ala.nome}"></h3>
 
         <div class="mb-2">
-            <a th:href="@{/alas/editar/{id}(id=${ala.id})}" class="btn btn-warning btn-sm">Editar</a>
-            <a th:href="@{/alas/deletar/{id}(id=${ala.id})}" class="btn btn-danger btn-sm"
+            <a th:href="@{/alas-view/editar/{id}(id=${ala.id})}" class="btn btn-warning btn-sm">Editar</a>
+            <a th:href="@{/alas-view/deletar/{id}(id=${ala.id})}" class="btn btn-danger btn-sm"
                onclick="return confirm('Deseja realmente deletar esta ala?')">Deletar</a>
         </div>
 
