@@ -24,7 +24,7 @@ public class AuthController {
     @Autowired
     private TokenService tokenService;
 
-    @PostMapping("/login")
+    @PostMapping("/api/login")
     public Token login(@RequestBody Credentials credentials){
         Usuario user = (Usuario) authService.loadUserByUsername(credentials.email());
         if (!passwordEncoder.matches(credentials.password(), user.getPassword())){

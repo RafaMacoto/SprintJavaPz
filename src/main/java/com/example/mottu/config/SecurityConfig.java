@@ -3,15 +3,15 @@ package com.example.mottu.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -21,35 +21,63 @@ public class SecurityConfig {
     private AuthFilter authFilter;
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    @Order(1) // PRIORIDADE MÁXIMA
+    SecurityFilterChain apiSecurity(HttpSecurity http) throws Exception {
         return http
+                // Corresponde APENAS a requisições que começam com /api/
+                .securityMatcher("/api/**")
+                .csrf(csrf -> csrf.disable())
+
+                // Configurações RESTful: stateless, sem formLogin, sem redirecionamento
+                .formLogin(form -> form.disable())
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/usuarios-view/cadastro").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/usuarios-view/cadastro").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/motos-view/**", "/alas-view/**").hasAnyAuthority("ADMIN", "USER")
-                        .requestMatchers("/motos-view/admin/**", "/alas-view/admin/**", "/users-view/admin/**").hasAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/users/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/login/**").permitAll()
-                        .requestMatchers("/v3/api-docs/**","/swagger-ui/**","/swagger-ui.html").permitAll()
-                        .anyRequest().authenticated())
+                        // Endpoint de login da API
+                        .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
+                        // Endpoint /users (assumindo que é /api/users para a API)
+                        // Se /users for da API, ajuste para: .requestMatchers(HttpMethod.GET, "/api/users").permitAll()
+                        // Caso contrário, será tratado pela webSecurity
+                        .anyRequest().authenticated()
+                )
+
+                // Tratamento de exceção para retornar 401 em vez de redirecionar
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint((req, res, e) ->
+                                res.sendError(401, "Unauthorized: Token Invalido ou Ausente"))
+                )
+
+                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
+    }
+
+    @Bean
+    @Order(2) // PRIORIDADE MENOR (Geral)
+    SecurityFilterChain webSecurity(HttpSecurity http) throws Exception {
+        return http
+
+                .authorizeHttpRequests(auth -> auth
+                        // Permite acesso a recursos estáticos, cadastro e Swagger
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
+                        .requestMatchers("/usuarios-view/cadastro").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
+                        // Libera endpoints Web que devem ser públicos (ex: /users que você liberou anteriormente)
+                        .requestMatchers(HttpMethod.GET, "/users").permitAll()
+                        // Qualquer outra requisição web deve estar autenticada
+                        .anyRequest().authenticated()
+                )
+
+                // Configuração de login para o Thymeleaf (faz o redirecionamento)
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/motos-view")
-                        .permitAll())
+                        .permitAll()
+                )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout"))
-                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
-                .csrf(csrf -> csrf
-
-                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-
-                        .ignoringRequestMatchers(
-                                new AntPathRequestMatcher("/api/**"),
-                                new AntPathRequestMatcher("/v3/api-docs/**"),
-                                new AntPathRequestMatcher("/swagger-ui/**")
-                        )
+                        .logoutSuccessUrl("/login?logout")
                 )
                 .build();
     }
