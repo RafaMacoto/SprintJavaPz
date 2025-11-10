@@ -3,10 +3,6 @@
 Este README é específico da branch *develop*.
 
 Links importantes:
-- https://dev.azure.com/RM558962/Mottu
-- https://youtu.be/hkjprUIJ0vo
+- https://dev.azure.com/RM558962/Mottu (Azure Boards)
+- https://youtu.be/hkjprUIJ0vo (Vídeo dos testes)
 
-Integrantes:
-- Rafael Macoto - 554992  
-- Gabrielly Macedo  
-- Fernando Aguiar
